@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: meetflow-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /health
+    disk:
+      name: meetflow-data
+      mountPath: /app/data
+      sizeGB: 1
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false          # Renderダッシュボードで手動入力
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:////app/data/meetflow.db
+      - key: UPLOAD_DIR
+        value: /app/data/uploads
+      - key: FRONTEND_URL
+        sync: false          # Vercelデプロイ後にURLを入力
